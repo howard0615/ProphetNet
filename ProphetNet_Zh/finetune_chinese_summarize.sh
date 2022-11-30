@@ -1,12 +1,12 @@
-DATA_DIR=data/processed_summarization/
+DATA_DIR=/workplace/yhcheng/summarization_zh/ProphetNet/ProphetNet_Zh/data/processed/
 ARCH=ngram_transformer_prophet_large
 CRITERION=ngram_language_loss
 SAVE_DIR=models/finetune_summarization
 TENSORBOARD_LOGDIR=models/tensorboard_summarization
 USER_DIR=./prophetnet
-PRETRAINED_CHECKPOINT=./pretrained_checkpoint/checkpoint_zh.pt
+PRETRAINED_CHECKPOINT=./pretrained_model/prophetnet_zh.pt
 
-python /home/v-weizqi/coqa/fairseq/train.py $DATA_DIR \
+fairseq-train \
 	--fp16 --ngram 2 \
 	--user-dir $USER_DIR --task translation_prophetnet --arch $ARCH \
 	--optimizer adam --adam-betas '(0.9, 0.999)' --clip-norm 0.1 \
@@ -21,4 +21,5 @@ python /home/v-weizqi/coqa/fairseq/train.py $DATA_DIR \
 	--truncate-source --load-from-pretrained-model $PRETRAINED_CHECKPOINT \
 	--save-dir $SAVE_DIR \
 	--keep-last-epochs 10 \
-	--tensorboard-logdir $TENSORBOARD_LOGDIR 
+	--tensorboard-logdir $TENSORBOARD_LOGDIR  \
+	$DATA_DIR
